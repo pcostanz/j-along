@@ -45,7 +45,6 @@ function App() {
           </motion.button>
         </motion.div>
       </header>
-      <div className="item">What is this</div>
       <footer id="footer">build 36d4f24c - v 0.1.0</footer>
     </div>
   );
