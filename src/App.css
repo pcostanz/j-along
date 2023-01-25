@@ -51,10 +51,10 @@
 }
 
 .item {
-  color: #0e1111;
-  background: #eff0f9;
+  color: white;
+  background: #a1aafb;
   border-radius: 50px;
-  border: none;
+  border: 2px solid white;
   padding: 10px 5px;
   font-size: 22px;
 }
