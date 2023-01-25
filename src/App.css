@@ -1,7 +1,7 @@
 .App {
   position: relative;
-  background: rgb(12,15,175);
-  background: linear-gradient(180deg, rgba(12,15,175,1) 0%, rgba(6,12,233,1) 100%);
+  background: rgb(7,10,124);
+  background: linear-gradient(180deg, rgba(7,10,124,1) 0%, rgba(6,12,233,1) 100%);
 }
 
 .App-logo {
@@ -38,11 +38,6 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
 }
 
 .container {
@@ -55,8 +50,8 @@
 }
 
 .item {
-  color: black !important;
-  background: #e6e7fd !important;
+  /* color: black; */
+  /* background: #e6e7fd; */
   border-radius: 50px;
   border: none;
   padding: 10px 5px;
