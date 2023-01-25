@@ -10,6 +10,7 @@
 }
 
 #logo {
+  color: white;
   margin-top: 0;
   margin-left: -10px;
   margin-right: -10px;
@@ -50,8 +51,8 @@
 }
 
 .item {
-  /* color: black; */
-  /* background: #e6e7fd; */
+  color: #0e1111;
+  background: #eff0f9;
   border-radius: 50px;
   border: none;
   padding: 10px 5px;
