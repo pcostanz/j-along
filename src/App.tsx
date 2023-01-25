@@ -37,14 +37,15 @@ function App() {
           <h1 id="logo" className="font-effect-anaglyph">
             J-Along
           </h1>
-          <motion.button className="item" variants={item}>
+          <motion.div className="item" variants={item}>
             Play
-          </motion.button>
-          <motion.button className="item" variants={item}>
+          </motion.div>
+          <motion.div className="item" variants={item}>
             Stats
-          </motion.button>
+          </motion.div>
         </motion.div>
       </header>
+      <footer id="footer">build 36d4f24c - v 0.1.0</footer>
     </div>
   );
 }
