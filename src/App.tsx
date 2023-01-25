@@ -1,23 +1,49 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { motion } from "framer-motion";
+import "./App.css";
+
+const container = {
+  hidden: { opacity: 1, scale: 0 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      delayChildren: 0.3,
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const item = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+  },
+};
+
+// https://www.framer.com/motion/
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+        <motion.div
+          className="container"
+          variants={container}
+          initial="hidden"
+          animate="visible"
         >
-          Learn React
-        </a>
+          <h1 id="logo" className="font-effect-anaglyph">
+            J-Along
+          </h1>
+          <motion.button className="item" variants={item}>
+            Play
+          </motion.button>
+          <motion.button className="item" variants={item}>
+            Stats
+          </motion.button>
+        </motion.div>
       </header>
     </div>
   );

@@ -1,5 +1,6 @@
 .App {
-  text-align: center;
+  background: rgb(5,7,103);
+  background: linear-gradient(180deg, rgba(5,7,103,1) 30%, rgba(6,12,233,1) 100%);
 }
 
 .App-logo {
@@ -13,8 +14,19 @@
   }
 }
 
+#logo {
+  margin-top: 0;
+  margin-left: -10px;
+  margin-right: -10px;
+  letter-spacing: 0.1em;
+  background: rgba(255, 255, 255, 0.25);
+  padding: 10px 5px;
+  border-radius: 5px;
+}
+
 .App-header {
-  background-color: #282c34;
+  text-align: center;
+  font-weight: 600;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -35,4 +47,24 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.container {
+  width: 50vw;
+  /* height: 30vh; */
+  display: grid;
+  gap: 10px;
+  overflow: hidden;
+  margin: 0;
+  padding: 40px 25px;
+  /* background: rgba(255, 255, 255, 0.2); */
+  border-radius: 50px;
+}
+
+.item {
+  background: #e6e7fd;
+  border-radius: 50px;
+  border: none;
+  padding: 10px 5px;
+  font-size: 22px;
 }
