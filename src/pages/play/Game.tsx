@@ -21,6 +21,12 @@ const Game: React.FC<{}> = () => {
     }
   }, [showDailyDoubleSplash]);
 
+  useEffect(() => {
+    if (clue.dd) {
+      setShowDailyDoubleSplash(true);
+    }
+  }, [clue]);
+
   if (showDailyDoubleSplash) {
     return <ClueDailyDoubleSplash />;
   }
