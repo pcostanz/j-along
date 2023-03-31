@@ -1,12 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import GameControls from "./GameControls";
 import Clue from "./Clue";
+import ClueDailyDoubleSplash from "./ClueDailyDoubleSplash";
 
 import "./Game.css";
 
 import { jeopardyClues } from "./types";
 
 const Game: React.FC<{}> = () => {
-  const clue = jeopardyClues[1];
+  const [currentClueIndex, setCurrentClueIndex] = useState(0);
+  const clue = jeopardyClues[currentClueIndex];
+  const [showDailyDoubleSplash, setShowDailyDoubleSplash] = useState(clue.dd);
+
+  useEffect(() => {
+    if (showDailyDoubleSplash) {
+      const timeout = setTimeout(() => setShowDailyDoubleSplash(false), 2500);
+      return () => {
+        clearTimeout(timeout);
+      };
+    }
+  }, [showDailyDoubleSplash]);
+
+  if (showDailyDoubleSplash) {
+    return <ClueDailyDoubleSplash />;
+  }
 
   return (
     <div id="game">
@@ -17,7 +34,12 @@ const Game: React.FC<{}> = () => {
         correctResponse={clue.correctResponse}
         category={clue.category}
       />
-      <div>Right | Wrong | Skip</div>
+      <GameControls
+        score={0}
+        wagerable={false}
+        onPrevious={() => setCurrentClueIndex(currentClueIndex - 1)}
+        onNext={() => setCurrentClueIndex(currentClueIndex + 1)}
+      />
     </div>
   );
 };

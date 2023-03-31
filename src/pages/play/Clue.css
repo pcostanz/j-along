@@ -1,12 +1,11 @@
 .clue {
   text-transform: uppercase;
+  user-select: none;
 }
 
 .clue-details {
   padding: 5px 10px;
   font-size: 1.8em;
-  display: flex;
-  justify-content: space-between;
 }
 
 .clue-details-value {
