@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import "./Home.css";
 
@@ -22,11 +23,9 @@ const item = {
   },
 };
 
-type THomeProps = {
-  setMode: (mode: "home" | "play" | "stats") => void;
-};
+const MotionLink = motion(Link);
 
-const Home: React.FC<THomeProps> = ({ setMode }) => {
+const Home: React.FC = () => {
   return (
     <div>
       <div id="home">
@@ -39,16 +38,22 @@ const Home: React.FC<THomeProps> = ({ setMode }) => {
           <h1 id="logo" className="font-effect-anaglyph">
             J-Along
           </h1>
-          <motion.button
-            onClick={() => setMode("play")}
+          <MotionLink
+            whileTap={{ scale: 1.1 }}
+            to="/play"
             className="item"
             variants={item}
           >
             Play
-          </motion.button>
-          <motion.button className="item" variants={item}>
+          </MotionLink>
+          <MotionLink
+            whileTap={{ scale: 1.1 }}
+            to="/stats"
+            className="item"
+            variants={item}
+          >
             Stats
-          </motion.button>
+          </MotionLink>
         </motion.div>
       </div>
       <footer id="footer">build 36d4f24c - v 0.1.0</footer>

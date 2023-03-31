@@ -1,17 +1,28 @@
-import React, { useState } from "react";
-import Home from "./home/Home";
-import Launcher from "./play/Launcher";
+import React from "react";
+import Home from "./pages/home/Home";
+import Launcher from "./pages/play/Launcher";
 import "./App.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-//https://www.section.io/engineering-education/page-transition-in-react-using-framer-motion/
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home />,
+  },
+  {
+    path: "/play",
+    element: <Launcher />,
+  },
+  {
+    path: "/stats",
+    element: <div>stats go here</div>,
+  },
+]);
 
 function App() {
-  const [mode, setMode] = useState<"home" | "play" | "stats">("home");
-
   return (
     <div className="App">
-      {mode === "home" && <Home setMode={setMode} />}
-      {mode === "play" && <Launcher />}
+      <RouterProvider router={router} />
     </div>
   );
 }
