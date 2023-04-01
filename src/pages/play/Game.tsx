@@ -7,14 +7,10 @@ import "./Game.css";
 
 import { jeopardyClues } from "./types";
 
-// const gameState = Object.keys(jeopardyClues).map(() => {
-//   return { correct: undefined }
-// })
-
 const gameStateInitial = jeopardyClues.reduce((prev, next, index) => {
   return {
     ...prev,
-    [index]: false,
+    [index]: undefined,
   };
 }, {});
 
@@ -25,10 +21,10 @@ const Game: React.FC<{}> = () => {
   const clue = jeopardyClues[currentClue];
   // const [clueValue, setClueValue] = useState(clue.value);
 
-  const onCorrect = () => {
+  const onAnswer = (value: boolean | undefined) => {
     const newGameState = { ...gameState };
     // @ts-ignore
-    newGameState[currentClue] = true;
+    newGameState[currentClue] = value;
     setGameState(newGameState);
   };
 
@@ -41,6 +37,8 @@ const Game: React.FC<{}> = () => {
   const score = jeopardyClues.reduce((prev, next, index) => {
     // @ts-ignore
     if (gameState[index] === true) return prev + next.value;
+    // @ts-ignore
+    if (gameState[index] === false) return prev - next.value;
     return prev;
   }, 0);
 
@@ -70,9 +68,11 @@ const Game: React.FC<{}> = () => {
       </Carousel>
 
       <GameControls
+        // @ts-ignore
+        isCorrect={gameState[currentClue]}
         locked={lockGameControls}
         score={score}
-        onCorrect={onCorrect}
+        onAnswer={onAnswer}
       />
     </div>
   );

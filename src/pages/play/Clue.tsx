@@ -34,6 +34,11 @@ const Clue: React.FC<TJeopardyClue> = ({
     }
   }, [dd]);
 
+  // in some cases there is a bug where you see a flash of the question
+  // before the splash screen takes over
+  // we can't show the splash until the card is in view due to the
+  // way the carousel works - I don't feel like swapping out the carousel
+  // so i should look into the isInView threshold (maybe lower it?)
   if (showDailyDoubleSplash && isInView) {
     return <ClueDailyDoubleSplash />;
   }

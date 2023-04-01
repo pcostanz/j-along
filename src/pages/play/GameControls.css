@@ -20,15 +20,25 @@
     text-align: center;
     text-shadow: 4px 4px 2px black;
     box-shadow: 4px 4px 4px rgba(9, 9, 9, 0.519);
+    transition: transform 100ms ease-in-out;
+}
+
+#game-controls-score:active {
+    transform: scale(1.1)
 }
 
 #game-controls-score.correct {
     border-color: #21cf21;
 }
 
-#game-controls-score.correct span {
-    color: #21cf21;
+#game-controls-score.incorrect {
+    border-color: #cf2121;
 }
+
+#game-controls-score.negative span {
+    color: #cf2121;
+}
+
 
 #game-controls-score * {
     font-family: 'Chivo Mono', monospace;
