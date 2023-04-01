@@ -10,3 +10,6 @@
   background: rgb(7,10,124);
   background: linear-gradient(180deg, rgba(7,10,124,1) 0%, rgba(6,12,233,1) 100%);
 }
+
+/* https://allthingssmitty.com/2020/05/11/css-fix-for-100vh-in-mobile-webkit/ */
+/* https://css-tricks.com/how-to-use-css-grid-for-sticky-headers-and-footers/ */

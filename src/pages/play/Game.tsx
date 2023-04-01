@@ -1,51 +1,44 @@
 import React, { useState, useEffect } from "react";
+import Carousel from "nuka-carousel";
 import GameControls from "./GameControls";
 import Clue from "./Clue";
-import ClueDailyDoubleSplash from "./ClueDailyDoubleSplash";
 
 import "./Game.css";
 
 import { jeopardyClues } from "./types";
 
+//https://codesandbox.io/s/framer-motion-useinview-cgt5kc?from-embed
+
 const Game: React.FC<{}> = () => {
-  const [currentClueIndex, setCurrentClueIndex] = useState(0);
-  const clue = jeopardyClues[currentClueIndex];
-  const [showDailyDoubleSplash, setShowDailyDoubleSplash] = useState(clue.dd);
-
-  useEffect(() => {
-    if (showDailyDoubleSplash) {
-      const timeout = setTimeout(() => setShowDailyDoubleSplash(false), 2500);
-      return () => {
-        clearTimeout(timeout);
-      };
-    }
-  }, [showDailyDoubleSplash]);
-
-  useEffect(() => {
-    if (clue.dd) {
-      setShowDailyDoubleSplash(true);
-    }
-  }, [clue]);
-
-  if (showDailyDoubleSplash) {
-    return <ClueDailyDoubleSplash />;
-  }
+  const clue = jeopardyClues[0];
 
   return (
     <div id="game">
-      <Clue
-        value={clue.value}
-        text={clue.text}
-        dd={clue.dd}
-        correctResponse={clue.correctResponse}
-        category={clue.category}
-      />
-      <GameControls
-        score={0}
-        wagerable={false}
-        onPrevious={() => setCurrentClueIndex(currentClueIndex - 1)}
-        onNext={() => setCurrentClueIndex(currentClueIndex + 1)}
-      />
+      <Carousel withoutControls dragThreshold={0.2}>
+        <Clue
+          value={clue.value}
+          text={clue.text}
+          dd={clue.dd}
+          correctResponse={clue.correctResponse}
+          category={clue.category}
+        />
+        <Clue
+          value={clue.value}
+          text={clue.text}
+          dd={true}
+          correctResponse={clue.correctResponse}
+          category={clue.category}
+        />
+        <Clue
+          value={clue.value}
+          text={clue.text}
+          dd={clue.dd}
+          correctResponse={clue.correctResponse}
+          category={clue.category}
+        />
+      </Carousel>
+
+      <GameControls score={0} wagerable={false} />
     </div>
   );
 };

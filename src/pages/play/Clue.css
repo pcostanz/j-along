@@ -1,23 +1,32 @@
 .clue {
   text-transform: uppercase;
   user-select: none;
+  width: 100vw;
 }
 
 .clue-details {
-  padding: 5px 10px;
-  font-size: 1.8em;
+  margin-top: 10px;
+  padding: 0px 2px;
+  font-size: 1.4em;
+  text-align: center;
 }
 
 .clue-details-value {
   color: yellow;
+  text-shadow: 4px 4px 2px black;
+  font-weight: 600;
+  font-size: 1.3em;
 }
 
 .clue-details-category {
-
+  color: white;
+  margin-bottom: 0.4em;
+  text-shadow: 4px 4px 2px black;
 }
 
-.clue-details-title {
-  font-size: 2.2em;
+.clue-details-text {
+  font-size: 2.0em;
   text-align: center;
-  padding: 20px;
+  margin-top: 20px;
+  text-shadow: 4px 4px 2px black;
 }
