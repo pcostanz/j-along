@@ -1,18 +1,20 @@
 .clue {
   text-transform: uppercase;
-  user-select: none;
   width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .clue-details {
-  margin-top: 10px;
-  padding: 0px 2px;
+  padding: 10px 2px;
   font-size: 1.4em;
   text-align: center;
 }
 
 .clue-details-value {
   color: yellow;
+  font-family: 'Chivo Mono', monospace;
   text-shadow: 4px 4px 2px black;
   font-weight: 600;
   font-size: 1.3em;
@@ -25,8 +27,13 @@
 }
 
 .clue-details-text {
+  margin-top: 60px;
   font-size: 2.0em;
   text-align: center;
-  margin-top: 20px;
   text-shadow: 4px 4px 2px black;
+  flex: 1 0 auto;
+}
+
+.green {
+  color: #21cf21;
 }

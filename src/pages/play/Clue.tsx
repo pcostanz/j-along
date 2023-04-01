@@ -12,6 +12,7 @@ const Clue: React.FC<TJeopardyClue> = ({
   category,
 }) => {
   const ref = useRef(null);
+  //https://codesandbox.io/s/framer-motion-useinview-cgt5kc?from-embed
   const isInView = useInView(ref, { once: true });
   const [showWagerInput, setShowWagerInput] = useState(dd);
   const [wager, setWager] = useState(value);
@@ -54,7 +55,11 @@ const Clue: React.FC<TJeopardyClue> = ({
         <div>wager: {wager}</div>
       ) : (
         <div className="clue-details-text">
-          {showCorrectResponse ? correctResponse : text}
+          {showCorrectResponse ? (
+            <span className="green">{correctResponse}</span>
+          ) : (
+            text
+          )}
         </div>
       )}
     </div>

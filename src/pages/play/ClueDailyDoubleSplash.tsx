@@ -4,6 +4,7 @@ import "./ClueDailyDoubleSplash.css";
 
 // TODO: Originally I wanted to have confetti but it's not true to Jeopardy
 // so look into animate rotate and scale to flip the text like the show does
+// https://framermotionplayground.com/tutorial/flashcards
 const ClueDailyDoubleSplash: React.FC = () => {
   return (
     <motion.div
