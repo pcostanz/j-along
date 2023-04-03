@@ -10,43 +10,57 @@ import { jeopardyClues } from "./types";
 const gameStateInitial = jeopardyClues.reduce((prev, next, index) => {
   return {
     ...prev,
-    [index]: undefined,
+    [index]: {
+      correct: undefined,
+      value: next.value,
+    },
   };
 }, {});
 
 const Game: React.FC<{}> = () => {
+  const [wageredClues, setWageredClues] = useState<number[]>([]);
   const [gameState, setGameState] = useState(gameStateInitial);
   const [lockGameControls, setLockGameControls] = useState(false);
   const [currentClue, setCurrentClue] = useState(0);
   const clue = jeopardyClues[currentClue];
-  // const [clueValue, setClueValue] = useState(clue.value);
+
+  const onWagerComplete = () => {
+    setWageredClues([...wageredClues, currentClue]);
+  };
+
+  const clueNeedsWager = clue.dd && !wageredClues.includes(currentClue);
 
   const onAnswer = (value: boolean | undefined) => {
     const newGameState = { ...gameState };
     // @ts-ignore
-    newGameState[currentClue] = value;
+    newGameState[currentClue].correct = value;
     setGameState(newGameState);
   };
 
-  console.log(gameState);
-
-  // useEffect(() => {
-  //   setClueValue(clue.value);
-  // }, [currentClue]);
-
-  const score = jeopardyClues.reduce((prev, next, index) => {
+  const setClueWager = (value: number) => {
+    const newGameState = { ...gameState };
     // @ts-ignore
-    if (gameState[index] === true) return prev + next.value;
+    newGameState[currentClue].value = value;
+    setGameState(newGameState);
+  };
+
+  const score = Object.keys(gameState).reduce((prev, next, index) => {
     // @ts-ignore
-    if (gameState[index] === false) return prev - next.value;
+    if (gameState[index].correct === true) return prev + gameState[index].value;
+    // @ts-ignore
+    if (gameState[index].correct === false)
+      // @ts-ignore
+      return prev - gameState[index].value;
     return prev;
-  }, 0);
+  }, 12500);
 
   // https://github.com/FormidableLabs/nuka-carousel
   // can manually set index with slideIndex for resume?
   return (
     <div id="game">
       <Carousel
+        dragging={!clueNeedsWager}
+        swiping={!clueNeedsWager}
         withoutControls
         dragThreshold={0.05}
         onUserNavigation={() => setLockGameControls(true)}
@@ -55,9 +69,20 @@ const Game: React.FC<{}> = () => {
           setLockGameControls(false);
         }}
       >
-        {jeopardyClues.map((clue) => (
+        {jeopardyClues.map((clue, index) => (
+          // holy shit this component is prop city
+          // clue can be sent as an object
           <Clue
+            // @ts-ignore
+            correct={gameState[index].correct}
+            needsWager={clueNeedsWager}
+            onWagerComplete={onWagerComplete}
+            score={score}
+            index={index}
+            setWager={setClueWager}
             key={clue.text}
+            // @ts-ignore
+            wager={gameState[index].value}
             value={clue.value}
             text={clue.text}
             dd={clue.dd}
@@ -67,13 +92,16 @@ const Game: React.FC<{}> = () => {
         ))}
       </Carousel>
 
-      <GameControls
-        // @ts-ignore
-        isCorrect={gameState[currentClue]}
-        locked={lockGameControls}
-        score={score}
-        onAnswer={onAnswer}
-      />
+      {/* instead of conditional rendering, maybe slide this out of the frame with framer motion? it's causing re-renders and the Counter to reset when the wager screen leaves */}
+      {!clueNeedsWager && (
+        <GameControls
+          // @ts-ignore
+          isCorrect={gameState[currentClue].correct}
+          locked={false}
+          score={score}
+          onAnswer={onAnswer}
+        />
+      )}
     </div>
   );
 };

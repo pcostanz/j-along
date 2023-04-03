@@ -2,22 +2,43 @@ import React, { useState, useRef, useEffect } from "react";
 import { useInView } from "framer-motion";
 import "./Clue.css";
 import { TJeopardyClue } from "./types";
-import ClueDailyDoubleSplash from "./ClueDailyDoubleSplash";
 
-const Clue: React.FC<TJeopardyClue> = ({
+import ClueDailyDoubleSplash from "./ClueDailyDoubleSplash";
+import ClueWager from "./ClueWager";
+
+type TClueProps = TJeopardyClue & {
+  setWager: (value: number) => void;
+  wager: number;
+  index: number;
+  score: number;
+  onWagerComplete: () => void;
+  needsWager: boolean;
+  correct: boolean;
+};
+
+const Clue: React.FC<TClueProps> = ({
   dd,
   value,
   text,
   correctResponse,
   category,
+  setWager,
+  wager,
+  index,
+  score,
+  onWagerComplete,
+  needsWager,
+  correct,
 }) => {
   const ref = useRef(null);
   //https://codesandbox.io/s/framer-motion-useinview-cgt5kc?from-embed
   const isInView = useInView(ref, { once: true });
   const [showWagerInput, setShowWagerInput] = useState(dd);
-  const [wager, setWager] = useState(value);
   const [showDailyDoubleSplash, setShowDailyDoubleSplash] = useState(dd);
   const [showCorrectResponse, setShowCorrectResponse] = useState(false);
+
+  const minimumMaxWager = index <= 29 ? 1000 : 2000;
+  const maxWager = score > minimumMaxWager ? score : minimumMaxWager;
 
   useEffect(() => {
     if (showDailyDoubleSplash && isInView) {
@@ -32,7 +53,7 @@ const Clue: React.FC<TJeopardyClue> = ({
     if (dd) {
       setShowDailyDoubleSplash(true);
     }
-  }, [dd]);
+  }, []);
 
   // in some cases there is a bug where you see a flash of the question
   // before the splash screen takes over
@@ -43,7 +64,11 @@ const Clue: React.FC<TJeopardyClue> = ({
     return <ClueDailyDoubleSplash />;
   }
 
-  const needsWager = showWagerInput && !showDailyDoubleSplash;
+  const showClueWager = needsWager && !showDailyDoubleSplash;
+  const showWagered = !showClueWager && dd;
+  const isTrueDailyDouble = wager === maxWager;
+
+  const unanswered = correct === undefined;
 
   return (
     <div
@@ -52,12 +77,27 @@ const Clue: React.FC<TJeopardyClue> = ({
       onDoubleClick={() => setShowCorrectResponse(!showCorrectResponse)}
     >
       <div className="clue-details">
+        {dd && (
+          <div className="font-effect-anaglyph lightyellow">DAILY DOUBLE</div>
+        )}
         <div className="clue-details-category">{category}</div>
-        <div className="clue-details-value">${value}</div>
+        <div
+          className={`clue-details-value ${
+            unanswered ? "" : correct ? "green" : "red"
+          }`}
+        >
+          ${showWagered ? wager : value}
+        </div>
       </div>
 
-      {needsWager ? (
-        <div>wager: {wager}</div>
+      {showClueWager ? (
+        <ClueWager
+          trueDailyDouble={isTrueDailyDouble}
+          maxValue={maxWager}
+          value={wager}
+          onChange={(value) => setWager(value)}
+          onConfirm={onWagerComplete}
+        />
       ) : (
         <div className="clue-details-text">
           {showCorrectResponse ? (

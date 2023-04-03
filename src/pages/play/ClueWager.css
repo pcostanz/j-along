@@ -1,0 +1,21 @@
+#wager-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1 0 auto;
+    margin-top: -50px;
+}
+
+#wager-input {
+    background: blue;
+    text-align: center;
+    width: 100%;
+    font-size: 2.6em;
+}
+
+#wager-range-container {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    width: 90%;
+}

@@ -27,16 +27,8 @@
     transform: scale(1.1)
 }
 
-#game-controls-score.correct {
-    border-color: #21cf21;
-}
-
-#game-controls-score.incorrect {
-    border-color: #cf2121;
-}
-
 #game-controls-score.negative span {
-    color: #cf2121;
+    color: red;
 }
 
 

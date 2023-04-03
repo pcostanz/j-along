@@ -44,7 +44,7 @@ const gameState = {
   export const jeopardyClues: Array<TJeopardyClue | TDailyDoubleClue> = [
     {
       value: 1000,
-      dd: false,
+      dd: true,
       category: "FICTION'S FICTIONAL PLACES",
       text: "Macondo is a town that's originally isolated from the outside world in this 1967 Gabriel García Márquez classic",
       correctResponse: "One Hundred Years of Solitude",

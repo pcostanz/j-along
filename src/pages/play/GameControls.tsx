@@ -4,6 +4,12 @@ import { useLongPress } from "use-long-press";
 
 import "./GameControls.css";
 
+// I don't like how this component is shaping up
+// I think it should be renamed to Scoreboard and
+// all this fancy click bullshit should go away.
+// maybe clicking the Scoreboard can pull up game information
+// and stats and stuff
+
 // https://spacejelly.dev/posts/how-to-detect-long-press-gestures-in-javascript-events-in-react/
 // @ts-ignore
 function useAdvancedClick(
@@ -27,7 +33,9 @@ function useAdvancedClick(
     return () => clearTimeout(timer);
   }, [click]);
 
-  return () => setClick((prev) => prev + 1);
+  return () => {
+    setClick((prev) => prev + 1);
+  };
 }
 
 // https://www.npmjs.com/package/react-signature-canvas
@@ -57,9 +65,7 @@ const GameControls: React.FC<{
     <div id="game-controls">
       <div
         id="game-controls-score"
-        className={`${
-          isCorrect === undefined ? "" : isCorrect ? "correct" : "incorrect"
-        } ${isNegative ? "negative" : ""}`}
+        className={`${isNegative ? "negative" : ""}`}
         onClick={handleClick}
         {...bind()}
       >
