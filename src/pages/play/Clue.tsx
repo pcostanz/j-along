@@ -32,9 +32,10 @@ const Clue: React.FC<TClueProps> = ({
 }) => {
   const ref = useRef(null);
   //https://codesandbox.io/s/framer-motion-useinview-cgt5kc?from-embed
-  const isInView = useInView(ref, { once: true });
-  const [showWagerInput, setShowWagerInput] = useState(dd);
-  const [showDailyDoubleSplash, setShowDailyDoubleSplash] = useState(dd);
+  const isInView = useInView(ref, { once: true, amount: 0.01 });
+  const [showDailyDoubleSplash, setShowDailyDoubleSplash] = useState(
+    dd && needsWager
+  );
   const [showCorrectResponse, setShowCorrectResponse] = useState(false);
 
   const minimumMaxWager = index <= 29 ? 1000 : 2000;
@@ -48,12 +49,6 @@ const Clue: React.FC<TClueProps> = ({
       };
     }
   }, [showDailyDoubleSplash, isInView]);
-
-  useEffect(() => {
-    if (dd) {
-      setShowDailyDoubleSplash(true);
-    }
-  }, []);
 
   // in some cases there is a bug where you see a flash of the question
   // before the splash screen takes over
