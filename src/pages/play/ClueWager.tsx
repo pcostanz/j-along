@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Range } from "react-range";
+import { Range, getTrackBackground } from "react-range";
 
 import "./ClueWager.css";
 
@@ -20,7 +20,7 @@ const ClueWager: React.FC<TClueWagerProps> = ({
 }) => {
   return (
     <div id="wager-container">
-      <div>WAGER</div>
+      <div id="wager-label">WAGER</div>
       <input
         onKeyUp={(event) => {
           // @ts-ignore
@@ -40,22 +40,40 @@ const ClueWager: React.FC<TClueWagerProps> = ({
       />
       <div id="wager-range-container">
         <Range
-          step={10}
+          step={100}
           min={0}
           max={maxValue}
           values={[value]}
           onChange={(values) => onChange(values[0])}
           renderTrack={({ props, children }) => (
             <div
-              {...props}
+              onMouseDown={props.onMouseDown}
+              onTouchStart={props.onTouchStart}
               style={{
                 ...props.style,
-                height: "6px",
+                height: "50px",
+                display: "flex",
                 width: "100%",
-                backgroundColor: "white",
               }}
             >
-              {children}
+              <div
+                ref={props.ref}
+                style={{
+                  ...props.style,
+                  alignSelf: "center",
+                  height: "4px",
+                  width: "100%",
+                  borderRadius: "5px",
+                  background: getTrackBackground({
+                    values: [value],
+                    colors: ["yellow", "#ccc"],
+                    min: 0,
+                    max: maxValue,
+                  }),
+                }}
+              >
+                {children}
+              </div>
             </div>
           )}
           renderThumb={({ props }) => (
@@ -66,17 +84,19 @@ const ClueWager: React.FC<TClueWagerProps> = ({
                 height: "25px",
                 width: "25px",
                 borderRadius: "50%",
-                backgroundColor: "blue",
-                border: "2px solid white",
+                backgroundColor: "white",
+                border: "3px solid white",
               }}
             />
           )}
         />
       </div>
-      <div>
-        {trueDailyDouble ? "Let's make it a true Daily Double!" : "  d"}
-      </div>
-      <button onClick={onConfirm}>Confirm!</button>
+      <span id="true-daily-double">
+        {trueDailyDouble ? "Let's make it a true Daily Double!" : ""}
+      </span>
+      <button id="wager-confirm" onClick={onConfirm}>
+        Confirm
+      </button>
     </div>
   );
 };

@@ -7,15 +7,34 @@
     margin-top: -50px;
 }
 
+#wager-label {
+    font-size: 1.4em;
+}
+
 #wager-input {
-    background: blue;
+    all: unset;
+    background: transparent;
+    color: yellow;
+    width: 50%;
     text-align: center;
-    width: 100%;
-    font-size: 2.6em;
+    font-size: 4em;
 }
 
 #wager-range-container {
-    margin-top: 40px;
-    margin-bottom: 40px;
-    width: 90%;
+    width: 80%;
+}
+
+#wager-confirm {
+    background: #a1aafb;
+    border-radius: 50px;
+    border: 2px solid white;
+    padding: 10px 15px;
+    font-size: 22px;
+}
+
+#true-daily-double {
+    height: 20px;
+    line-height: 20px;
+    font-size: 20px;
+    margin: 15px 0px;
 }
