@@ -5,7 +5,11 @@ import Clue from "./Clue";
 
 import "./Game.css";
 
-import { jeopardyClues } from "./types";
+// import { jeopardyClues } from "./types";
+
+import game from "./sample_data";
+
+const jeopardyClues = game.jeopardy;
 
 const gameStateInitial = jeopardyClues.reduce((prev, next, index) => {
   return {
@@ -53,10 +57,10 @@ const Game: React.FC<{}> = () => {
       // @ts-ignore
       return prev - gameState[index].value;
     return prev;
-  }, 12500);
+  }, 0);
 
   const clueNeedsWager =
-    currentClue.dd && !wageredClues.includes(currentClueIndex);
+    currentClue.dailyDoubleWager && !wageredClues.includes(currentClueIndex);
   return (
     <div id="game">
       <Carousel
@@ -84,7 +88,9 @@ const Game: React.FC<{}> = () => {
             <Clue
               // @ts-ignore
               correct={gameState[index].correct}
-              needsWager={clue.dd && !wageredClues.includes(index)}
+              needsWager={
+                !!clue.dailyDoubleWager && !wageredClues.includes(index)
+              }
               onWagerComplete={onWagerComplete}
               score={score}
               index={index}
@@ -94,7 +100,7 @@ const Game: React.FC<{}> = () => {
               wager={gameState[index].value}
               value={clue.value}
               text={clue.text}
-              dd={clue.dd}
+              dd={!!clue.dailyDoubleWager}
               correctResponse={clue.correctResponse}
               category={clue.category}
             />
