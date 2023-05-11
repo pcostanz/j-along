@@ -25,7 +25,3 @@ const Launcher: React.FC<{}> = () => {
 };
 
 export default Launcher;
-
-{
-  /* <div onClick={() => setGameDate("today")}>Launcher</div> */
-}

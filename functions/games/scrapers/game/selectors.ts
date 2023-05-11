@@ -2,7 +2,7 @@ import { EJArchiveRoundIdentifiers } from "./types";
 const JEOPARDY_ROUND = `#jeopardy_round`;
 const DOUBLE_JEOPARDY_ROUND = `#double_jeopardy_round`;
 
-const getJeopardyRoundSelectors = (round: string) => {
+export const getJeopardyRoundSelectors = (round: string) => {
   const roundSelector = `${round} .round`;
   const clueSelector = `${roundSelector} .clue`;
 

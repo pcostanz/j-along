@@ -9,10 +9,3 @@ export type TJeopardyClue = {
   tripleStumper?: boolean;
   correctResponse?: string;
 };
-
-export type TJeopardyRound = {
-  clueIndex: number;
-  categories: string[];
-  clues: TJeopardyClue[];
-  sortClues: () => void;
-};

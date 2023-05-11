@@ -2,6 +2,8 @@ export type TPagesFunctionEnv = {
   GAMES: KVNamespace;
   GAMES_BY_DATE: KVNamespace;
   SEASONS: KVNamespace;
+  CF_PAGES: string;
+  CF_PAGES_URL: string;
 };
 
 export type TPagesFunctionEventContext = EventContext<
@@ -9,10 +11,3 @@ export type TPagesFunctionEventContext = EventContext<
   any,
   Record<string, unknown>
 >;
-
-export type TSeasonData = {
-  id?: string;
-  title?: string;
-  start?: string;
-  end?: string;
-};

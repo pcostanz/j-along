@@ -1,90 +1,101 @@
-import { TJeopardyClue, TJeopardyRound } from "../../types";
-import { EJArchiveRoundIdentifiers } from "./types";
+import { TPagesFunctionEventContext, TSeasonData } from "./types";
 
-export class JeopardyRound implements TJeopardyRound {
-  clueIndex = -1;
+import { scrapeSeasonGameIds } from "./scrapers/seasonGameIds/index";
+import { scrapeSeasons } from "./scrapers/seasons/index";
+import { scrapeGame } from "./scrapers/game/index";
 
-  categories: string[] = [];
+import { isDateWithinInterval } from "./utils";
 
-  clues: TJeopardyClue[] = [];
+export const getGamesForDate = async (
+  context: TPagesFunctionEventContext,
+  date: string
+): Promise<any> => {
+  const gameIds = await getGameIds(context, date);
 
-  sortClues = () => {
-    this.clues.sort((a, b) => a.order - b.order);
-  };
-}
+  const gamesData: any[] = await Promise.all(
+    gameIds.map(async (gameId: string): Promise<any> => {
+      return await fetchGameData(context, gameId);
+    })
+  );
 
-export const getHandlers = (
-  round: TJeopardyRound
-): {
-  [key in EJArchiveRoundIdentifiers]: HTMLRewriterElementContentHandlers;
-} => ({
-  [EJArchiveRoundIdentifiers.CATEGORIES]: {
-    text({ text }) {
-      if (!text) return;
+  return gamesData;
+};
 
-      round.categories.push(text);
-    },
-  },
-  [EJArchiveRoundIdentifiers.CLUE_ORDER]: {
-    text({ text }) {
-      if (!text) return;
+export const getGameIds = async (
+  context: TPagesFunctionEventContext,
+  date: string
+): Promise<any> => {
+  const gameIdsFromKV = await context.env.GAMES_BY_DATE.get(date);
+  if (gameIdsFromKV) return JSON.parse(gameIdsFromKV);
 
-      round.clueIndex = round.clueIndex + 1;
-      round.clues.push({
-        order: Number(text),
-        right: undefined,
-        wrong: [],
-        category: round.categories[round.clueIndex % 6],
-        value: (Math.floor(round.clueIndex / 6) + 1) * 200,
-      });
-    },
-  },
-  [EJArchiveRoundIdentifiers.CLUE_DAILY_DOUBLE]: {
-    text({ text }) {
-      if (!text) return;
+  const seasons = await fetchSeasons(context);
 
-      // "DD: $5,000" => 5000
-      round.clues[round.clueIndex].dailyDoubleWager = Number(
-        text.match(/\d+/g).join("")
-      );
-    },
-  },
-  [EJArchiveRoundIdentifiers.CLUE_TEXT]: {
-    text({ text }) {
-      if (!text) return;
+  const seasonsToCheck = seasons.reduce((prev, next) => {
+    const seasonHasGame = isDateWithinInterval(date, next.start, next.end);
 
-      const clueText = round.clues[round.clueIndex].text;
+    if (seasonHasGame) {
+      return [...prev, next.id];
+    } else return prev;
+  }, []);
 
-      if (!clueText) {
-        round.clues[round.clueIndex].text = text;
-      } else {
-        round.clues[round.clueIndex].text = clueText + text;
-      }
-    },
-  },
-  [EJArchiveRoundIdentifiers.CLUE_CONTESTANT_CORRECT]: {
-    text({ text }) {
-      if (!text) return;
+  const seasonGames: any[] = await Promise.all(
+    seasonsToCheck.map(async (seasonId: string): Promise<any> => {
+      return await getSeasonGameIdsByDate(context, seasonId);
+    })
+  );
 
-      round.clues[round.clueIndex].right = text;
-    },
-  },
-  [EJArchiveRoundIdentifiers.CLUE_CONTESTANTS_INCORRECT]: {
-    text({ text }) {
-      if (!text) return;
+  const gameIds = seasonGames.reduce((prev, next) => {
+    if (next[date]) {
+      return [...prev, next[date]];
+    } else {
+      return prev;
+    }
+  }, []);
 
-      if (text === "Triple Stumper") {
-        round.clues[round.clueIndex].tripleStumper = true;
-      } else {
-        round.clues[round.clueIndex].wrong.push(text);
-      }
-    },
-  },
-  [EJArchiveRoundIdentifiers.CLUE_CORRECT_RESPONSE]: {
-    text({ text }) {
-      if (!text) return;
+  if (gameIds.length) {
+    await context.env.GAMES_BY_DATE.put(date, JSON.stringify(gameIds));
+  }
 
-      round.clues[round.clueIndex].correctResponse = text;
-    },
-  },
-});
+  return gameIds;
+};
+
+export const getSeasonGameIdsByDate = async (
+  context: TPagesFunctionEventContext,
+  seasonId: string
+) => {
+  // SEASONS -> SEASON_GAME_IDS?
+  const seasonFromKV = await context.env.SEASONS.get(seasonId);
+  if (seasonFromKV) {
+    return JSON.parse(seasonFromKV);
+  }
+
+  const gameIds = await scrapeSeasonGameIds(seasonId);
+
+  await context.env.SEASONS.put(seasonId, JSON.stringify(gameIds));
+  return gameIds;
+};
+
+export const fetchSeasons = async (
+  context: TPagesFunctionEventContext
+): Promise<TSeasonData[]> => {
+  const seasonsFromKV = await context.env.SEASONS.get("_ALL");
+  if (seasonsFromKV) return JSON.parse(seasonsFromKV);
+
+  const seasons = await scrapeSeasons();
+  await context.env.SEASONS.put("_ALL", JSON.stringify(seasons));
+  return seasons;
+};
+
+export const fetchGameData = async (
+  context: TPagesFunctionEventContext,
+  id: string
+): Promise<any> => {
+  const gameDataFromKV = await context.env.GAMES.get(id);
+
+  if (gameDataFromKV) return JSON.parse(gameDataFromKV);
+
+  const game = await scrapeGame(id);
+  await context.env.GAMES.put(id, JSON.stringify(game));
+
+  return game;
+};

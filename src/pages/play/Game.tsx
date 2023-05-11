@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useLoaderData } from "react-router-dom";
 import Carousel from "nuka-carousel";
 import GameControls from "./GameControls";
 import Clue from "./Clue";
 
 import "./Game.css";
-
-// import { jeopardyClues } from "./types";
 
 import game from "./sample_data";
 
@@ -22,6 +21,8 @@ const gameStateInitial = jeopardyClues.reduce((prev, next, index) => {
 }, {});
 
 const Game: React.FC<{}> = () => {
+  const data = useLoaderData();
+  console.log("data from loader", data);
   const [wageredClues, setWageredClues] = useState<number[]>([]);
   const [gameState, setGameState] = useState(gameStateInitial);
   const [lockGameControls, setLockGameControls] = useState(false);
