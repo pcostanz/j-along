@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { RELEASE } from "../../env";
 import "./Home.css";
 
 const container = {
@@ -56,7 +57,7 @@ const Home: React.FC = () => {
           </MotionLink>
         </motion.div>
       </div>
-      <footer id="footer">build 36d4f24c - v 0.1.0</footer>
+      <footer id="footer">{`version: ${RELEASE || "local"}`}</footer>
     </div>
   );
 };

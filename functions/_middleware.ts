@@ -25,6 +25,7 @@ export const onRequest: TPagesFunction = async ({
   data.sentry = new Toucan({
     environment: isDev ? "development" : isPreview ? "preview" : "production",
     dsn: "https://65a335c2d7ed47b6979c21a3e152180b@o4505163580506112.ingest.sentry.io/4505163607638016",
+    release: env.CF_PAGES_COMMIT_SHA,
   });
 
   try {
@@ -32,6 +33,7 @@ export const onRequest: TPagesFunction = async ({
 
     if (!isDev) {
       // @TODO: Limit this to j-along.pages.dev and subdomains for previews
+      // https://23d6a07d.j-along.pages.dev
       console.log(env.CF_PAGES_URL);
       console.log(request.url);
       response.headers.set("Access-Control-Allow-Origin", "*");

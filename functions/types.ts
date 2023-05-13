@@ -8,7 +8,9 @@ export type TPagesFunctionEnv = {
   SEASONS: KVNamespace;
   CF_PAGES: string;
   CF_PAGES_URL: string;
-  CF_PAGES_ENVIRONMENT: TCFPagesEnvironments;
+  CF_PAGES_ENVIRONMENT: TCFPagesEnvironments; // @TODO: I don't need to use this, I can use the branch
+  CF_PAGES_COMMIT_SHA: string;
+  CF_PAGES_BRANCH: string;
 };
 
 export type SentryData = { sentry: Toucan };
