@@ -1,7 +1,7 @@
 import { getGamesForDate } from "./handlers";
-import { TPagesFunctionEnv } from "./types";
+import { TPagesFunction } from "../types";
 
-export const onRequest: PagesFunction<TPagesFunctionEnv> = async (context) => {
+export const onRequest: TPagesFunction = async (context) => {
   const date = context.params.date as string;
   const games = await getGamesForDate(context, date);
 

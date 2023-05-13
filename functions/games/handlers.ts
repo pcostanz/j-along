@@ -1,4 +1,6 @@
-import { TPagesFunctionEventContext, TSeasonData } from "./types";
+import { TSeasonData } from "./types";
+
+import { TPagesFunctionEventContext } from "../types";
 
 import { scrapeSeasonGameIds } from "./scrapers/seasonGameIds/index";
 import { scrapeSeasons } from "./scrapers/seasons/index";
