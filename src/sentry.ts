@@ -10,18 +10,11 @@ import * as Sentry from "@sentry/react";
 import { ENVIRONMENT, RELEASE } from "./env";
 
 // @TODO: opt in with env to enable this in dev
-
-const isProduction = process.env.REACT_APP_CF_PAGES_BRANCH === "main";
-const isPreview = !!process.env.REACT_APP_CF_PAGES_BRANCH;
-const commitSha = process.env.REACT_APP_CF_PAGES_COMMIT_SHA;
-
-console.log("ENVIRONMENT", ENVIRONMENT);
-
 export const initSentry = () => {
   Sentry.init({
     dsn: "https://76e57abc1814455799982dae493d5e98@o4505163580506112.ingest.sentry.io/4505163602001920",
     release: RELEASE,
-    environment: "development",
+    environment: ENVIRONMENT,
     integrations: [
       new Sentry.BrowserTracing({
         routingInstrumentation: Sentry.reactRouterV6Instrumentation(
